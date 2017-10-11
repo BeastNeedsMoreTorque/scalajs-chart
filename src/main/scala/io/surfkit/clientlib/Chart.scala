@@ -4,11 +4,12 @@ import scala.scalajs.js
 import js.annotation._
 import js.JSConverters._
 
-package components {
+package chart {
 
 import org.scalajs.dom.Event
 import org.scalajs.dom.CanvasRenderingContext2D
 
+@js.native
 trait ChartDataSet extends js.Object {
   var label: String = js.native
   var fillColor: String = js.native
@@ -24,33 +25,34 @@ trait ChartDataSet extends js.Object {
 
 object ChartDataSet {
   def apply(
-             label: String = null,
-             fillColor: String = null,
-             strokeColor: String = null,
-             pointColor: String = null,
-             pointStrokeColor: String = null,
-             pointHighlightFill: String = null,
-             pointHighlightStroke: String = null,
-             highlightFill: String = null,
-             highlightStroke: String = null,
-             data: Seq[Double] = Nil
+             label: js.UndefOr[String] = js.undefined,
+             fillColor: js.UndefOr[String] = js.undefined,
+             strokeColor: js.UndefOr[String] = js.undefined,
+             pointColor: js.UndefOr[String] = js.undefined,
+             pointStrokeColor: js.UndefOr[String] = js.undefined,
+             pointHighlightFill: js.UndefOr[String] = js.undefined,
+             pointHighlightStroke: js.UndefOr[String] = js.undefined,
+             highlightFill: js.UndefOr[String] = js.undefined,
+             highlightStroke: js.UndefOr[String] = js.undefined,
+             data: js.UndefOr[js.Array[Double]] = js.undefined
              ): ChartDataSet = {
-    js.Dynamic.literal(
-      label = label,
-      fillColor = fillColor,
-      strokeColor = strokeColor,
-      pointColor = pointColor,
-      pointStrokeColor = pointStrokeColor,
-      pointHighlightFill = pointHighlightFill,
-      pointHighlightStroke = pointHighlightStroke,
-      highlightFill = highlightFill,
-      highlightStroke = highlightStroke,
-      data = data.toJSArray
-    ).asInstanceOf[ChartDataSet]
+    val result = js.Dynamic.literal()
+    label.foreach(result.label = _)
+    fillColor.foreach(result.fillColor = _)
+    strokeColor.foreach(result.strokeColor = _)
+    pointColor.foreach(result.pointColor = _)
+    pointStrokeColor.foreach(result.pointStrokeColor = _)
+    pointHighlightFill.foreach(result.pointHighlightFill = _)
+    pointHighlightStroke.foreach(result.pointHighlightStroke = _)
+    highlightFill.foreach(result.highlightFill = _)
+    highlightStroke.foreach(result.highlightStroke = _)
+    data.foreach(result.data = _)
+    result.asInstanceOf[ChartDataSet]
   }
 }
 
 
+@js.native
 trait LinearChartData extends js.Object {
   var labels: js.Array[String] = js.native
   var datasets: js.Array[ChartDataSet] = js.native
@@ -58,8 +60,8 @@ trait LinearChartData extends js.Object {
 
 object LinearChartData {
   def apply(
-             labels: Seq[String] = null,
-             datasets: Seq[ChartDataSet] = null
+             labels: Seq[String] = Seq.empty[String],
+             datasets: Seq[ChartDataSet] = Seq.empty[ChartDataSet]
              ): LinearChartData = {
 
     js.Dynamic.literal(
@@ -70,6 +72,7 @@ object LinearChartData {
 }
 
 
+@js.native
 trait CircularChartData extends js.Object {
   var value: Double = js.native
   var color: String = js.native
@@ -93,6 +96,7 @@ object CircularChartData {
   }
 }
 
+@js.native
 trait ChartSettings extends js.Object {
   var animation: Boolean = js.native
   var animationSteps: Double = js.native
@@ -216,6 +220,7 @@ object ChartSettings {
   }
 }
 
+@js.native
 trait ChartOptions extends js.Object {
   var scaleShowGridLines: Boolean = js.native
   var scaleGridLineColor: String = js.native
@@ -239,6 +244,7 @@ object ChartOptions {
   }
 }
 
+@js.native
 trait PointsAtEvent extends js.Object {
   var value: Double = js.native
   var label: String = js.native
@@ -251,6 +257,7 @@ trait PointsAtEvent extends js.Object {
   var y: Double = js.native
 }
 
+@js.native
 trait ChartInstance extends js.Object {
   var clear: js.Function0[Unit] = js.native
   var stop: js.Function0[Unit] = js.native
@@ -260,6 +267,7 @@ trait ChartInstance extends js.Object {
   var generateLegend: js.Function0[String] = js.native
 }
 
+@js.native
 trait LinearInstance extends ChartInstance {
   var getPointsAtEvent: js.Function1[Event, js.Array[PointsAtEvent]] = js.native
   var update: js.Function0[Unit] = js.native
@@ -267,6 +275,7 @@ trait LinearInstance extends ChartInstance {
   var removeData: js.Function0[Unit] = js.native
 }
 
+@js.native
 trait CircularInstance extends ChartInstance {
   var getSegmentsAtEvent: js.Function1[Event, js.Array[js.Any]] = js.native
   var update: js.Function0[Unit] = js.native
@@ -275,6 +284,7 @@ trait CircularInstance extends ChartInstance {
   var segments: js.Array[CircularChartData] = js.native
 }
 
+@js.native
 trait LineChartOptions extends ChartOptions {
   var scaleShowHorizontalLines: Boolean = js.native
   var scaleShowVerticalLines: Boolean = js.native
@@ -325,6 +335,7 @@ object LineChartOptions {
   }
 }
 
+@js.native
 trait BarChartOptions extends ChartOptions {
   var scaleBeginAtZero: Boolean = js.native
   var scaleShowHorizontalLines: Boolean = js.native
@@ -340,30 +351,31 @@ trait BarChartOptions extends ChartOptions {
 
 object BarChartOptions {
   def apply(
-    scaleBeginAtZero: Boolean = true,
-    scaleShowHorizontalLines: Boolean = true,
-    scaleShowVerticalLines: Boolean = true,
-    barShowStroke: Boolean = true,
-    barStrokeWidth: Double = 2.0,
-    barValueSpacing: Double = 2.0,
-    barDatasetSpacing: Double = 2.0,
-    responsive: Boolean = true,
-    maintainAspectRatio: Boolean = false
+    scaleBeginAtZero: js.UndefOr[Boolean] = js.undefined,
+    scaleShowHorizontalLines: js.UndefOr[Boolean] = js.undefined,
+    scaleShowVerticalLines: js.UndefOr[Boolean] = js.undefined,
+    barShowStroke: js.UndefOr[Boolean] = js.undefined,
+    barStrokeWidth: js.UndefOr[Double] = js.undefined,
+    barValueSpacing: js.UndefOr[Double] = js.undefined,
+    barDatasetSpacing: js.UndefOr[Double] = js.undefined,
+    responsive: js.UndefOr[Boolean] = js.undefined,
+    maintainAspectRatio: js.UndefOr[Boolean] = js.undefined
              ): BarChartOptions = {
-    js.Dynamic.literal(
-      scaleBeginAtZero = scaleBeginAtZero,
-      scaleShowHorizontalLines = scaleShowHorizontalLines,
-      scaleShowVerticalLines = scaleShowVerticalLines,
-      barShowStroke = barShowStroke,
-      barValueSpacing = barValueSpacing,
-      barStrokeWidth = barStrokeWidth,
-      barDatasetSpacing = barDatasetSpacing,
-      responsive = responsive,
-      maintainAspectRatio = maintainAspectRatio
-    ).asInstanceOf[BarChartOptions]
+    val result = js.Dynamic.literal()
+    scaleBeginAtZero.foreach(result.scaleBeginAtZero = _)
+    scaleShowHorizontalLines.foreach(result.scaleShowHorizontalLines = _)
+    scaleShowVerticalLines.foreach(result.scaleShowVerticalLines = _)
+    barShowStroke.foreach(result.barShowStroke = _)
+    barValueSpacing.foreach(result.barValueSpacing = _)
+    barStrokeWidth.foreach(result.barStrokeWidth = _)
+    barDatasetSpacing.foreach(result.barDatasetSpacing = _)
+    responsive.foreach(result.responsive = _)
+    maintainAspectRatio.foreach(result.maintainAspectRatio = _)
+    result.asInstanceOf[BarChartOptions]
   }
 }
 
+@js.native
 trait RadarChartOptions extends js.Object {
   var scaleShowLine: Boolean = js.native
   var angleShowLineOut: Boolean = js.native
@@ -429,6 +441,7 @@ object RadarChartOptions {
   }
 }
 
+@js.native
 trait PolarAreaChartOptions extends js.Object {
   var scaleShowLabelBackdrop: Boolean = js.native
   var scaleBackdropColor: String = js.native
@@ -481,6 +494,7 @@ object PolarAreaChartOptions {
   }
 }
 
+@js.native
 trait PieChartOptions extends js.Object {
   var segmentShowStroke: Boolean = js.native
   var segmentStrokeColor: String = js.native
@@ -519,6 +533,8 @@ object PieChartOptions {
   }
 }
 
+
+@js.native
 class Chart protected() extends js.Object {
   def this(context: CanvasRenderingContext2D) = this()
 
@@ -535,6 +551,7 @@ class Chart protected() extends js.Object {
   def Doughnut(data: js.Array[CircularChartData], options: PieChartOptions = null): CircularInstance = js.native
 }
 
+@js.native
 object Chart extends js.Object {
   var defaults: js.Any = js.native
 }
